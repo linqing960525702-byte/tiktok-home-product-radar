@@ -695,6 +695,18 @@
       font-weight: 900;
     }
 
+    .pending-link {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 8px;
+      border: 1px dashed rgba(255, 255, 255, 0.55);
+      color: rgba(255, 255, 255, 0.82);
+      font-size: 12px;
+      font-weight: 900;
+    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -1062,64 +1074,14 @@
 
     const hotVideos = [
       {
-        tag: "规则",
-        product: "欧美/拉美家居家装",
-        title: "昨日榜单筛选规则已更新",
-        angle: "只保留欧美和拉美市场；重点家居百货、家装建材；排除美妆、服装、保健品、食品。每条视频必须包含 TikTok 原视频链接、商品落地页和 FastMoss 数据源。",
-        metric: "字段：TikTok视频 · 商品落地页 · FastMoss来源 · 播放量/销量/ROAS",
-        videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/dashboard"
-      },
-      {
-        tag: "清洁",
-        product: "家居清洁工具",
-        title: "昨日清洁工具爆款视频待同步",
-        angle: "优先找油污、水垢、玻璃、地板、宠物毛发等前后对比强的视频；不收消毒/医疗级夸大承诺。",
-        metric: "等待 FastMoss 按新规则抓取",
-        videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
-      },
-      {
-        tag: "收纳",
-        product: "收纳整理/小户型空间",
-        title: "昨日收纳整理爆款视频待同步",
-        angle: "优先看衣柜、厨房、浴室、搬家、返校、公寓小空间；强调尺寸、承重、折叠和安装便利。",
-        metric: "等待 FastMoss 按新规则抓取",
-        videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/e-commerce/saleslist?date_type=1"
-      },
-      {
-        tag: "厨卫",
-        product: "厨房/浴室工具",
-        title: "昨日厨卫工具爆款视频待同步",
-        angle: "优先找台面整理、水槽过滤、浴室置物、防滑防霉、免打孔安装；食品接触类先核验证明。",
-        metric: "等待 FastMoss 按新规则抓取",
-        videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
-      },
-      {
         tag: "灯具",
-        product: "灯具照明/氛围改造",
-        title: "昨日灯具照明爆款视频待同步",
-        angle: "优先找安装简单、租房友好、氛围前后对比强的视频；电器类必须核对 CE/插头/电压规格。",
-        metric: "等待 FastMoss 按新规则抓取",
+        product: "E27 Ceiling Fan Light with Remote Control",
+        title: "英国 TikTok Shop 家装建材销量榜 #1",
+        angle: "卖点是 E27 螺口免布线安装、风扇+照明二合一、卧室/厨房/小房间降温。素材建议拍“普通灯泡→风扇灯”的安装前后对比，并重点核对 CE、英规电压、说明书和售后。",
+        metric: "FastMoss：总销量 1.27万；总GMV £20.20万；视频销售额 £13.82万；视频数量 59；价格 £19.59；上架 2026-05-12",
         videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/e-commerce/saleslist?date_type=1"
-      },
-      {
-        tag: "家装",
-        product: "五金工具/墙地面改造/园艺庭院",
-        title: "昨日家装建材爆款视频待同步",
-        angle: "优先找免打孔、修补、墙贴、地垫、庭院收纳、园艺工具和维修前后对比；排除高风险施工承诺。",
-        metric: "等待 FastMoss 按新规则抓取",
-        videoUrl: "",
-        landingUrl: "",
-        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
+        landingUrl: "https://www.tiktok.com/shop/gb/pdp/1729826814495792029?source=product_detail&enter_from=product_detail&enter_method=feed_list_brand_cat",
+        sourceUrl: "https://www.fastmoss.com/zh/e-commerce/detail/1729826814495792029"
       }
     ];
 
@@ -1479,7 +1441,7 @@
             <p>${item.angle}</p>
           </div>
           <div class="video-links">
-            ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noreferrer">播放 TikTok 视频</a>` : `<a href="${item.sourceUrl}" target="_blank" rel="noreferrer">接入数据源</a>`}
+            ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noreferrer">播放 TikTok 视频</a>` : `<span class="pending-link">视频链接待验证</span>`}
             ${item.landingUrl ? `<a href="${item.landingUrl}" target="_blank" rel="noreferrer">商品落地页</a>` : ""}
             <a href="${item.sourceUrl}" target="_blank" rel="noreferrer">FastMoss 来源</a>
           </div>
