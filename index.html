@@ -1,0 +1,1441 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TikTok 欧区家居百货选品雷达</title>
+  <style>
+    :root {
+      --bg: #f3f0e8;
+      --ink: #151515;
+      --muted: #6d6a62;
+      --panel: rgba(255, 255, 255, 0.92);
+      --line: rgba(21, 21, 21, 0.12);
+      --dark: #101815;
+      --green: #1e6a4b;
+      --green-2: #dff3e7;
+      --orange: #d66a22;
+      --orange-2: #fff0df;
+      --red: #ba3d37;
+      --red-2: #ffe5e1;
+      --blue: #225f8d;
+      --blue-2: #e3eff8;
+      --shadow: 0 18px 44px rgba(27, 22, 13, 0.12);
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: Arial, "Microsoft YaHei", sans-serif;
+      color: var(--ink);
+      background:
+        radial-gradient(circle at 18% 0%, rgba(30, 106, 75, 0.18), transparent 28%),
+        radial-gradient(circle at 85% 12%, rgba(214, 106, 34, 0.16), transparent 22%),
+        linear-gradient(135deg, #f8f5ef 0%, #eef3ed 52%, #f7efe5 100%);
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button, input { font: inherit; }
+
+    .layout {
+      min-height: 100vh;
+      display: grid;
+      grid-template-columns: 286px 1fr;
+    }
+
+    .sidebar {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      padding: 24px;
+      color: #f4f5ef;
+      background: linear-gradient(180deg, #0f1d18 0%, #1b2d25 100%);
+      overflow: auto;
+    }
+
+    .brand {
+      padding: 18px 0 24px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+    }
+
+    .brand small {
+      color: #9cc8b6;
+      font-size: 12px;
+      letter-spacing: 0;
+    }
+
+    .brand h1 {
+      margin: 10px 0 0;
+      font-size: 25px;
+      line-height: 1.18;
+      letter-spacing: 0;
+    }
+
+    .side-section { margin-top: 24px; }
+
+    .side-title {
+      margin: 0 0 10px;
+      color: #a8c8ba;
+      font-size: 12px;
+    }
+
+    .filters {
+      display: grid;
+      gap: 8px;
+    }
+
+    .filter {
+      min-height: 38px;
+      width: 100%;
+      padding: 9px 12px;
+      border: 1px solid rgba(255,255,255,0.13);
+      border-radius: 8px;
+      color: #f4f5ef;
+      background: rgba(255,255,255,0.07);
+      cursor: pointer;
+      text-align: left;
+    }
+
+    .filter.active {
+      color: #0f1d18;
+      background: #dff3e7;
+      border-color: #dff3e7;
+      font-weight: 700;
+    }
+
+    .side-card {
+      margin-top: 22px;
+      padding: 14px;
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      color: #d7e6de;
+      line-height: 1.55;
+      font-size: 13px;
+    }
+
+    main { padding: 28px; }
+
+    .hero {
+      display: block;
+      margin-bottom: 12px;
+    }
+
+    .hero-main,
+    .news-panel,
+    .metric,
+    .product-card,
+    .trend-table {
+      border: 1px solid var(--line);
+      background: var(--panel);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(12px);
+    }
+
+    .hero-main {
+      min-height: auto;
+      border-radius: 8px;
+      padding: 14px 16px;
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 14px;
+      align-items: center;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .hero-main::after {
+      display: none;
+    }
+
+    .hero-main > * { position: relative; z-index: 1; }
+
+    .eyebrow {
+      display: inline-flex;
+      width: fit-content;
+      align-items: center;
+      min-height: 30px;
+      padding: 0 11px;
+      border-radius: 999px;
+      background: #111;
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .hero-main h2 {
+      margin: 0 0 3px;
+      font-size: 18px;
+      line-height: 1.25;
+      letter-spacing: 0;
+    }
+
+    .hero-main p {
+      max-width: none;
+      margin: 0;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .ticker-screen {
+      position: relative;
+      height: 58px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background:
+        linear-gradient(90deg, rgba(16,24,21,0.93), rgba(16,24,21,0.76)),
+        #101815;
+    }
+
+    .ticker-track {
+      display: grid;
+      gap: 8px;
+      padding: 7px;
+      animation: newsScroll 28s linear infinite;
+    }
+
+    .ticker-screen:hover .ticker-track {
+      animation-play-state: paused;
+    }
+
+    .ticker-card {
+      height: 42px;
+      display: grid;
+      grid-template-columns: 62px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      padding: 7px 9px;
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      background: rgba(255,255,255,0.08);
+      color: #f7f4ed;
+    }
+
+    .ticker-date {
+      display: grid;
+      place-items: center;
+      min-height: 26px;
+      border-radius: 8px;
+      background: #dff3e7;
+      color: #10231b;
+      font-size: 11px;
+      font-weight: 900;
+      text-align: center;
+      line-height: 1.3;
+    }
+
+    .ticker-card strong {
+      display: block;
+      margin-bottom: 0;
+      font-size: 13px;
+    }
+
+    .ticker-card span {
+      display: none;
+      color: #d9e2dc;
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .ticker-card a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 26px;
+      padding: 0 8px;
+      border-radius: 8px;
+      background: #fff;
+      color: #10231b;
+      font-size: 11px;
+      font-weight: 900;
+      white-space: nowrap;
+    }
+
+    @keyframes newsScroll {
+      0% { transform: translateY(0); }
+      100% { transform: translateY(-300px); }
+    }
+
+    .news-panel {
+      display: none;
+    }
+
+    .news-panel {
+      border-radius: 8px;
+      padding: 18px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .news-panel h3,
+    .section-head h3 {
+      margin: 0;
+      font-size: 20px;
+    }
+
+    .news-item {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+    }
+
+    .news-item strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 14px;
+    }
+
+    .news-item span {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .news-item a {
+      display: inline-block;
+      margin-top: 8px;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .toolbar {
+      display: grid;
+      grid-template-columns: 1fr 190px;
+      gap: 12px;
+      margin: 12px 0;
+    }
+
+    .search {
+      min-height: 46px;
+      width: 100%;
+      padding: 0 14px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      color: var(--ink);
+    }
+
+    .updated {
+      min-height: 46px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #101815;
+      color: #f8f5ef;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+
+    .metric {
+      min-height: 72px;
+      border-radius: 8px;
+      padding: 12px 14px;
+    }
+
+    .metric strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 24px;
+    }
+
+    .metric span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .section-head {
+      display: flex;
+      align-items: end;
+      justify-content: space-between;
+      gap: 16px;
+      margin: 12px 0 10px;
+    }
+
+    .section-head span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .products {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+    }
+
+    .product-card {
+      border-radius: 8px;
+      overflow: hidden;
+      display: grid;
+      grid-template-rows: auto 1fr;
+    }
+
+    .product-media {
+      min-height: 150px;
+      position: relative;
+      display: grid;
+      place-items: center;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    .product-media img {
+      width: 100%;
+      height: 150px;
+      object-fit: contain;
+      display: block;
+      background: #fff;
+      padding: 8px;
+    }
+
+    .fallback-media {
+      height: 150px;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background:
+        linear-gradient(135deg, rgba(30,106,75,0.18), rgba(214,106,34,0.16)),
+        #f2eee5;
+    }
+
+    .fallback-media svg {
+      width: 138px;
+      max-width: 70%;
+      height: auto;
+    }
+
+    .photo-card {
+      height: 150px;
+      display: grid;
+      align-content: center;
+      justify-items: center;
+      gap: 8px;
+      padding: 16px;
+      background:
+        linear-gradient(140deg, rgba(255,255,255,0.82), rgba(255,255,255,0.36)),
+        var(--photo-bg, #e8efe7);
+    }
+
+    .photo-card.is-fallback {
+      display: none;
+    }
+
+    .photo-card svg {
+      width: 92px;
+      max-width: 64%;
+      height: auto;
+      filter: drop-shadow(0 18px 24px rgba(20, 26, 22, 0.14));
+    }
+
+    .photo-card span {
+      max-width: 220px;
+      color: #2f3834;
+      font-size: 12px;
+      font-weight: 800;
+      text-align: center;
+      line-height: 1.35;
+    }
+
+    .media-tag {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 999px;
+      background: rgba(16, 24, 21, 0.88);
+      color: #fff;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .product-body {
+      display: grid;
+      gap: 9px;
+      padding: 12px;
+      background: #fff;
+    }
+
+    .product-title {
+      display: flex;
+      gap: 10px;
+      justify-content: space-between;
+      align-items: start;
+    }
+
+    .product-card {
+      cursor: pointer;
+    }
+
+    .product-title h4 {
+      margin: 0;
+      font-size: 15px;
+      line-height: 1.34;
+    }
+
+    .badge {
+      flex: 0 0 auto;
+      border-radius: 999px;
+      padding: 5px 9px;
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .badge.a { color: var(--green); background: var(--green-2); }
+    .badge.b { color: var(--orange); background: var(--orange-2); }
+    .badge.c { color: var(--red); background: var(--red-2); }
+
+    .product-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .product-stats div {
+      min-height: 62px;
+      padding: 8px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8f7f2;
+    }
+
+    .product-stats strong {
+      display: block;
+      margin-bottom: 4px;
+      font-size: 13px;
+    }
+
+    .product-stats span,
+    .copy {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .price-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .price-box {
+      padding: 8px;
+      border-radius: 8px;
+      background: #101815;
+      color: #fff;
+    }
+
+    .price-box strong {
+      display: block;
+      margin-bottom: 4px;
+      color: #dff3e7;
+      font-size: 12px;
+    }
+
+    .price-box span {
+      font-size: 13px;
+      font-weight: 900;
+      line-height: 1.25;
+    }
+
+    .copy { margin: 0; }
+
+    .links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .links a {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 11px;
+      border-radius: 8px;
+      background: var(--blue-2);
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .score-row {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 6px;
+    }
+
+    .score {
+      padding: 7px;
+      border-radius: 8px;
+      border: 1px solid var(--line);
+      background: #f8f7f2;
+    }
+
+    .score strong {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--muted);
+      font-size: 11px;
+    }
+
+    .score span {
+      font-size: 14px;
+      font-weight: 900;
+    }
+
+    .updates {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .update-card {
+      min-height: 96px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .update-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+    }
+
+    .update-card span {
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 20;
+      display: none;
+      place-items: center;
+      padding: 22px;
+      background: rgba(16, 24, 21, 0.62);
+    }
+
+    .modal.open {
+      display: grid;
+    }
+
+    .modal-panel {
+      width: min(1060px, 100%);
+      max-height: 88vh;
+      overflow: auto;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 28px 80px rgba(0,0,0,0.28);
+    }
+
+    .modal-head {
+      position: sticky;
+      top: 0;
+      z-index: 2;
+      display: flex;
+      align-items: start;
+      justify-content: space-between;
+      gap: 16px;
+      padding: 18px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+    }
+
+    .modal-head h3 {
+      margin: 0 0 5px;
+      font-size: 22px;
+    }
+
+    .modal-head span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .close {
+      min-width: 36px;
+      min-height: 36px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #101815;
+      color: #fff;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    .modal-body {
+      display: grid;
+      grid-template-columns: 280px 1fr;
+      gap: 18px;
+      padding: 18px;
+    }
+
+    .detail-media {
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      overflow: hidden;
+      background: #f8f7f2;
+    }
+
+    .detail-media .photo-card,
+    .detail-media img {
+      height: 260px;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .detail-box {
+      padding: 12px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #f8f7f2;
+    }
+
+    .detail-box strong {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+
+    .detail-box span {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .detail-section {
+      margin-top: 14px;
+      padding-top: 14px;
+      border-top: 1px solid var(--line);
+    }
+
+    .detail-section h4 {
+      margin: 0 0 8px;
+      font-size: 16px;
+    }
+
+    .detail-section p {
+      margin: 0;
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+    }
+
+    .trend-table {
+      width: 100%;
+      border-collapse: collapse;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .trend-table th,
+    .trend-table td {
+      padding: 13px 14px;
+      border-bottom: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+      font-size: 14px;
+      line-height: 1.45;
+      background: #fff;
+    }
+
+    .trend-table th {
+      background: #101815;
+      color: #fff;
+      font-size: 13px;
+    }
+
+    .trend-table tr:last-child td { border-bottom: 0; }
+
+    .footer {
+      margin: 18px 0 8px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 1180px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { position: relative; height: auto; }
+      .filters { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .products { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 720px) {
+      main { padding: 18px; }
+      .hero-main { grid-template-columns: 1fr; }
+      .hero-main h2 { font-size: 17px; }
+      .toolbar, .products, .metrics, .filters, .updates, .modal-body, .detail-grid { grid-template-columns: 1fr; }
+      .trend-table { display: block; overflow-x: auto; }
+      .product-stats, .price-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand">
+        <small>Private Product Intelligence</small>
+        <h1>TikTok 欧区家居百货选品雷达</h1>
+      </div>
+      <div class="side-section">
+        <p class="side-title">品类</p>
+        <div class="filters" id="categoryFilters"></div>
+      </div>
+      <div class="side-section">
+        <p class="side-title">备货优先级</p>
+        <div class="filters" id="priorityFilters"></div>
+      </div>
+      <div class="side-card">
+        评分逻辑：美区素材验证、欧区合规风险、轻小件物流、季节窗口、达人可复刻程度。默认市场为法国、德国、意大利、西班牙。
+      </div>
+    </aside>
+
+    <main>
+      <section class="hero">
+        <div class="hero-main">
+          <div>
+            <span class="eyebrow">2026-05-26 更新</span>
+            <h2>家居百货选品库</h2>
+            <p>核心看产品、销量线索、素材入口和欧区备货风险。</p>
+          </div>
+          <div class="ticker-screen">
+            <div class="ticker-track" id="tickerTrack"></div>
+          </div>
+        </div>
+
+        <div class="news-panel">
+          <h3>TK 最新资讯</h3>
+          <div id="newsList"></div>
+        </div>
+      </section>
+
+      <section class="toolbar">
+        <input class="search" id="search" type="search" placeholder="搜索：清洁布、夏季、食品接触、返校、CE">
+        <div class="updated">每日 24h 自动更新</div>
+      </section>
+
+      <section class="metrics">
+        <div class="metric"><strong id="metricProducts">0</strong><span>产品候选</span></div>
+        <div class="metric"><strong id="metricA">0</strong><span>A 级优先测款</span></div>
+        <div class="metric"><strong>30-90天</strong><span>趋势预测窗口</span></div>
+        <div class="metric"><strong>FR/DE/IT/ES</strong><span>欧区默认市场</span></div>
+      </section>
+
+      <div class="section-head">
+        <h3>每日更新记录</h3>
+        <span>自动任务会把新增选品和资讯写到这里</span>
+      </div>
+      <section class="updates" id="updateLog"></section>
+
+      <div class="section-head">
+        <h3>产品库</h3>
+        <span id="resultCount"></span>
+      </div>
+      <section class="products" id="productGrid"></section>
+
+      <div class="section-head">
+        <h3>趋势与同期复盘</h3>
+        <span>决定备货节奏和避坑顺序</span>
+      </div>
+      <table class="trend-table">
+        <thead>
+          <tr>
+            <th>趋势/同期爆点</th>
+            <th>证据线索</th>
+            <th>欧区打法</th>
+            <th>风险</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>夏季清洁与窗户/厨房焕新</td>
+            <td>魔术清洁布、缝隙刷、浴室清洁内容持续适合短视频演示。</td>
+            <td>主拍真实污渍、前后对比、可重复使用、轻小套装。</td>
+            <td>避免消毒、杀菌、医疗级等未证实声明。</td>
+          </tr>
+          <tr>
+            <td>旅行和换季收纳</td>
+            <td>6-8 月暑期旅行、搬家、学生公寓需求叠加。</td>
+            <td>压缩袋、搬家袋、行李整理包可按场景分素材。</td>
+            <td>尺寸、承重和容量表达要保守。</td>
+          </tr>
+          <tr>
+            <td>冰饮厨房工具</td>
+            <td>冰格、杯子冰模、水果保鲜盒有夏季内容场景。</td>
+            <td>优先食品接触证明齐全的硅胶/PP 产品，做组合装。</td>
+            <td>需要验证 LFGB 或食品接触材料文件。</td>
+          </tr>
+          <tr>
+            <td>2025 同期香氛拖地液爆发</td>
+            <td>Mop Soap 类内容在美区验证过，但液体清洁剂不适合新手欧区重仓。</td>
+            <td>用拖把替换头、清洁布、香氛清洁配件替代。</td>
+            <td>液体运输、标签、香精和化学品合规风险高。</td>
+          </tr>
+          <tr>
+            <td>返校宿舍收纳</td>
+            <td>7-9 月桌面、洗衣篮、衣柜裤架有季节窗口。</td>
+            <td>素材围绕 dorm、student flat、small apartment。</td>
+            <td>同质化高，需要颜色、套装和尺寸差异。</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p class="footer">
+        说明：TikTok Shop 销量会变化，商品图片由 TikTok Shop 页面提供，若图片被平台防盗链拦截，卡片会显示备用视觉图。备货前请复核供应商资质、CE/食品接触/标签文件和欧区平台政策。
+      </p>
+    </main>
+  </div>
+
+  <div class="modal" id="detailModal" role="dialog" aria-modal="true" aria-label="产品详情">
+    <div class="modal-panel">
+      <div class="modal-head">
+        <div>
+          <h3 id="modalTitle"></h3>
+          <span id="modalSubtitle"></span>
+        </div>
+        <button class="close" id="modalClose" aria-label="关闭">×</button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <script>
+    const updateLog = [
+      {
+        title: "新增重点观察",
+        detail: "魔术清洁布、旅行压缩袋、清凉毯进入首批测试池。"
+      },
+      {
+        title: "合规提醒",
+        detail: "冰格、水果保鲜盒、米桶类需要食品接触材料文件。"
+      },
+      {
+        title: "竞争提示",
+        detail: "展示架、桌面收纳同质化高，需要套装、颜色和尺寸差异。"
+      },
+      {
+        title: "素材方向",
+        detail: "优先拍前后对比、真实使用、欧洲小户型和学生公寓场景。"
+      }
+    ];
+
+    const news = [
+      {
+        date: "05-26",
+        title: "欧区家居内容仍看重真实场景",
+        detail: "TikTok EMEA Home & Living playbook 强调家居内容要用真实使用、房间改造和清晰利益点推动转化。",
+        url: "https://ads.tiktok.com/business/library/ENG_2025_SMB_EMEA_HomeLiving_Playbook.pdf"
+      },
+      {
+        date: "05-26",
+        title: "独立发货和配送体验影响转化",
+        detail: "欧区买家更关注配送承诺、退货和价格透明，家居百货页面要明确尺寸、材质、包含件数。",
+        url: "https://seller.tiktokglobalshop.com/university"
+      },
+      {
+        date: "05-26",
+        title: "夏季户外与清凉家居升温",
+        detail: "清凉毯、户外垫、冰饮厨房和旅行收纳进入 6-8 月窗口，适合先用达人素材测款。",
+        url: "https://www.tiktok.com/search/video?q=summer%20home%20products%20tiktok%20shop"
+      },
+      {
+        date: "05-26",
+        title: "合规低风险产品更适合首批备货",
+        detail: "优先无液体、无插电、无强功效宣称、轻小件；补剂、美妆、液体清洁剂和小电器谨慎。",
+        url: "https://shop.tiktok.com/us/"
+      },
+      {
+        date: "趋势",
+        title: "返校宿舍收纳开始进入备货前置期",
+        detail: "桌面收纳、折叠洗衣篮、衣柜裤架和床边挂篮适合 7 月前准备素材，8 月放量。",
+        url: "https://www.tiktok.com/search/video?q=dorm%20organizer%20tiktok%20shop"
+      },
+      {
+        date: "风险",
+        title: "食品接触类厨房用品要先看文件",
+        detail: "冰格、水果保鲜盒、米桶等产品建议先确认 LFGB/食品接触材料证明，再进入欧区备货。",
+        url: "https://www.tiktok.com/search/video?q=kitchen%20organization%20tiktok%20shop"
+      }
+    ];
+
+    const products = [
+      {
+        name: "Magic Cleaning Cloth 魔术清洁布",
+        category: "清洁",
+        priority: "A",
+        sales: "约 144K sold",
+        price: "美区 $7.99-$14.99",
+        euPrice: "欧区 €8.99-€16.99",
+        window: "现在-8月",
+        trend: "夏季清洁、玻璃无痕、厨房油污，素材可复刻性很强。",
+        eu: "强烈建议测。轻小、低合规、低退货，适合法德意西。",
+        risk: "不要写杀菌、消毒、医疗级清洁。",
+        compliance: 90,
+        competition: 72,
+        creative: 94,
+        detail: "低合规、轻小件、素材可复制性强，是首批测款优先级最高的清洁类。重点看同款价格战，建议用厚度、片数、颜色和套装数量做差异化。",
+        localAngle: "德国讲耐用和无痕，法国讲厨房和浴室整洁，西班牙讲快速清洁，意大利讲家庭厨房日常。",
+        productUrl: "https://shop.tiktok.com/us/k/magic-cleaning-cloth",
+        videoUrl: "https://www.tiktok.com/search/video?q=magic%20cleaning%20cloth%20tiktok%20shop",
+        image: "https://p16-oec-general-useast5.ttcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/d4a144df5b4448e1b9a7310f7da90122~tplv-fhlh96nyum-crop-webp%3A2000%3A2000.webp?dr=12190&from=2378011839&idc=useast5&ps=933b5bde&shcp=607f11de&shp=8dbd94bf&t=555f072d",
+        photoBg: "#dff3e7",
+        icon: "cloth"
+      },
+      {
+        name: "CasaBella 搬家收纳袋",
+        category: "收纳",
+        priority: "A",
+        sales: "约 39K-42K sold",
+        price: "美区 $19.99-$34.99",
+        euPrice: "欧区 €24.99-€39.99",
+        window: "6-9月",
+        trend: "搬家、换季、学生公寓、出租屋，小户型痛点清晰。",
+        eu: "建议测。欧洲小户型和学生租房场景适配。",
+        risk: "承重、容量和尺寸要保守表达。",
+        compliance: 86,
+        competition: 64,
+        creative: 88,
+        detail: "季节性和生活场景都比较清晰，适合搬家、换季、学生公寓和出租屋。产品差异化在拉链、提手、透明窗口、折叠厚度和承重验证。",
+        localAngle: "法德意西都可用 small apartment、student flat、moving day、seasonal storage 场景。",
+        productUrl: "https://shop.tiktok.com/us/pdp/casabella-24-gallon-extra-large-heavy-duty-foldable-moving-bags/1730160969269220194",
+        videoUrl: "https://www.tiktok.com/search/video?q=moving%20bags%20tiktok%20shop",
+        image: "https://p16-oec-va.ibyteimg.com/tos-maliva-i-o3syd03w52-us/b17b3204f9d24ac4b3ca4b5815bd0d1c~tplv-o3syd03w52-resize-jpeg:800:800.jpeg?",
+        photoBg: "#f1ddbd",
+        icon: "bag"
+      },
+      {
+        name: "旅行真空压缩袋",
+        category: "旅行",
+        priority: "A",
+        sales: "头部款约 2.7K sold",
+        price: "美区 $12.99-$29.99",
+        euPrice: "欧区 €14.99-€34.99",
+        window: "6-8月",
+        trend: "暑期旅行、行李箱扩容、换季收纳，前后对比明显。",
+        eu: "建议测。手泵款更低风险，电泵款需合规。",
+        risk: "电泵款涉及电池/CE，袋体漏气会带来差评。",
+        compliance: 78,
+        competition: 69,
+        creative: 91,
+        detail: "暑期旅行和换季收纳双窗口，短视频前后对比很强。首批建议手泵或无电款，电泵版等供应商文件齐全后再测。",
+        localAngle: "主打 carry-on packing、family trip、student move-in、wardrobe reset。",
+        productUrl: "https://shop.tiktok.com/us/k/vacuumstoragebags",
+        videoUrl: "https://www.tiktok.com/search/video?q=travel%20vacuum%20storage%20bags%20tiktok%20shop",
+        image: "https://www.gonexsport.com/cdn/shop/files/Vacuum-Seal-Bags-For-Clothes.webp?v=1758092959&width=1500",
+        photoBg: "#dfeaf5",
+        icon: "vacuum"
+      },
+      {
+        name: "清凉毯/夏季空调毯",
+        category: "夏季",
+        priority: "A",
+        sales: "头部款约 30K sold",
+        price: "美区 $19.99-$49.99",
+        euPrice: "欧区 €24.99-€59.99",
+        window: "6-8月",
+        trend: "欧洲升温、卧室、沙发、午睡，进入夏季需求窗口。",
+        eu: "建议测。尺寸和材质分层定价。",
+        risk: "不要夸大降温效果，注意材质标签。",
+        compliance: 82,
+        competition: 58,
+        creative: 76,
+        detail: "欧洲夏季升温带来机会，但效果宣称要谨慎。建议做材质、尺寸和使用场景分层，避免承诺具体降温度数。",
+        localAngle: "法国偏卧室美感，德国偏材质参数，意大利/西班牙偏午睡和沙发场景。",
+        productUrl: "https://shop.tiktok.com/us/k/cooling-blankets",
+        videoUrl: "https://www.tiktok.com/search/video?q=cooling%20blanket%20tiktok%20shop",
+        image: "https://spinetec.co/cdn/shop/files/Sdc84d94770cb4de1a2535f448a682078R.webp?v=1730339505",
+        photoBg: "#d9f0f4",
+        icon: "blanket"
+      },
+      {
+        name: "水果保鲜盒/冰箱收纳盒",
+        category: "厨房",
+        priority: "A",
+        sales: "相关款约 1K-12K sold",
+        price: "美区 $14.99-$29.99",
+        euPrice: "欧区 €16.99-€34.99",
+        window: "6-9月",
+        trend: "夏季水果、冰箱整理、meal prep，适合家庭厨房内容。",
+        eu: "建议测套装。适合法国和意大利厨房场景。",
+        risk: "需食品接触材料证明，容量不要误导。",
+        compliance: 70,
+        competition: 67,
+        creative: 84,
+        detail: "冰箱整理和水果保鲜适合夏季，但食品接触材料文件是前置条件。建议做 3/5/8 件套，提高客单价。",
+        localAngle: "意大利厨房和家庭备餐场景强，法国可讲冰箱整洁和减少浪费。",
+        productUrl: "https://shop.tiktok.com/us/k/fruit-storage-containers",
+        videoUrl: "https://www.tiktok.com/search/video?q=fruit%20storage%20container%20fridge%20tiktok%20shop",
+        image: "https://p19-oec-general-useast5.ttcdn-us.com/tos-useast5-i-omjb5zjo8w-tx/cdaeb5ad489146129cab60749a1355c1~tplv-fhlh96nyum-crop-webp%3A2000%3A2000.webp?dr=12190&from=2378011839&idc=useast5&ps=933b5bde&shcp=607f11de&shp=8dbd94bf&t=555f072d",
+        photoBg: "#e9f2df",
+        icon: "fridge"
+      },
+      {
+        name: "杯子冰模/冰球模具",
+        category: "厨房",
+        priority: "A-",
+        sales: "头部款约 1.5K sold",
+        price: "美区 $7.99-$16.99",
+        euPrice: "欧区 €8.99-€18.99",
+        window: "6-8月",
+        trend: "冰咖啡、冷饮、露营、夏日厨房，可做短平快素材。",
+        eu: "可测。做通用杯型，避免品牌词侵权。",
+        risk: "食品接触证明必备，不要使用 Stanley 商标做标题。",
+        compliance: 66,
+        competition: 74,
+        creative: 82,
+        detail: "夏季冰饮素材好拍，但不要绑定 Stanley 等品牌词。适合做通用大杯冰模、咖啡冰球、露营冷饮组合。",
+        localAngle: "西班牙和意大利适合冷饮/咖啡场景，德国更适合材质和耐用证明。",
+        productUrl: "https://shop.tiktok.com/us/k/ice-cube-tray",
+        videoUrl: "https://www.tiktok.com/search/video?q=ice%20cube%20tray%20stanley%20cup%20tiktok%20shop",
+        image: "",
+        photoBg: "#dfeeff",
+        icon: "ice"
+      },
+      {
+        name: "Lifewit 4层展示架/调料架",
+        category: "收纳",
+        priority: "B",
+        sales: "约 72K sold",
+        price: "美区 $13.99-$27.99",
+        euPrice: "欧区 €15.99-€32.99",
+        window: "全年",
+        trend: "香水、手办、调料、桌面整理，内容场景丰富。",
+        eu: "建议找差异款测。做透明、黑色、厨房/美妆两套素材。",
+        risk: "同质化高，材质和承重需真实。",
+        compliance: 88,
+        competition: 82,
+        creative: 73,
+        detail: "低合规但竞争强，不能只卖普通展示架。建议用厨房调料、美妆香水、手办桌面三套素材分别测。",
+        localAngle: "德国讲尺寸承重，法国讲香水收纳，意大利讲厨房调料，西班牙讲桌面改造。",
+        productUrl: "https://shop.tiktok.com/us/pdp/display-stand-by-lifewit-4-tier-black-organizer-for-perfume-figures/1729504874295956010",
+        videoUrl: "https://www.tiktok.com/search/video?q=lifewit%204%20tier%20display%20stand",
+        image: "",
+        photoBg: "#e5f0e8",
+        icon: "rack"
+      },
+      {
+        name: "UFORU 米桶/谷物分装桶",
+        category: "厨房",
+        priority: "B",
+        sales: "第三方线索约 12K sold",
+        price: "美区 $24.99-$49.99",
+        euPrice: "欧区 €29.99-€59.99",
+        window: "全年",
+        trend: "台面整洁、一键出米、宠粮谷物收纳。",
+        eu: "可测但控量。体积较大，适合做厨房改造素材。",
+        risk: "食品接触材料、运输体积、破损率。",
+        compliance: 62,
+        competition: 61,
+        creative: 78,
+        detail: "厨房台面整理效果好，但体积和食品接触文件会影响利润与合规。建议先做小容量或宠粮/谷物泛场景。",
+        localAngle: "意大利主打米面谷物，法国主打整洁厨房，德国强调密封和容量。",
+        productUrl: "https://shop.tiktok.com/us/pdp/airtight-rice-dispenser-uforu-11lbs-22lbs-bpa-free-with-cup-durable-design-convenient-storage-for-dr/1729476377640080461",
+        videoUrl: "https://www.tiktok.com/search/video?q=uforu%20rice%20dispenser",
+        image: "",
+        photoBg: "#f2ead8",
+        icon: "rice"
+      },
+      {
+        name: "桌面/抽屉透明收纳套装",
+        category: "返校",
+        priority: "B",
+        sales: "25件套约 4.2K sold",
+        price: "美区 $9.99-$22.99",
+        euPrice: "欧区 €11.99-€26.99",
+        window: "7-9月",
+        trend: "返校、宿舍、办公桌、文具整理。",
+        eu: "7月开始测。适合学生公寓和 home office 场景。",
+        risk: "同质化高，套装数量和尺寸要清楚。",
+        compliance: 92,
+        competition: 80,
+        creative: 72,
+        detail: "返校季窗口明确，合规低但同质化高。建议做抽屉前后对比和学生桌面整理，套装数量要清楚。",
+        localAngle: "主打 student flat、home office、small desk reset。",
+        productUrl: "https://shop.tiktok.com/us/k/desk-organizer-stationery",
+        videoUrl: "https://www.tiktok.com/search/video?q=desk%20drawer%20organizer%20tiktok%20shop",
+        image: "",
+        photoBg: "#eee2d4",
+        icon: "desk"
+      },
+      {
+        name: "户外防水地毯/野餐垫",
+        category: "户外",
+        priority: "B",
+        sales: "店铺级约 495K sold",
+        price: "美区 $19.99-$59.99",
+        euPrice: "欧区 €24.99-€69.99",
+        window: "6-8月",
+        trend: "阳台、庭院、露营、野餐，适合夏季生活方式内容。",
+        eu: "谨慎测轻薄折叠款。适合西班牙、意大利户外场景。",
+        risk: "体积和运费高，退货成本高。",
+        compliance: 80,
+        competition: 60,
+        creative: 75,
+        detail: "夏季户外场景强，但物流体积和退货成本要先算。更适合轻薄折叠、防水、可清洗款。",
+        localAngle: "西班牙和意大利偏阳台/露营，法国偏野餐，德国偏户外耐用。",
+        productUrl: "https://shop.tiktok.com/us/k/outdoor-area-rugs",
+        videoUrl: "https://www.tiktok.com/search/video?q=outdoor%20rug%20patio%20tiktok%20shop",
+        image: "",
+        photoBg: "#e1f0df",
+        icon: "outdoor"
+      },
+      {
+        name: "宿舍洗衣篮/折叠脏衣篮",
+        category: "返校",
+        priority: "B",
+        sales: "头部款约 5.6K sold",
+        price: "美区 $12.99-$29.99",
+        euPrice: "欧区 €14.99-€34.99",
+        window: "7-9月",
+        trend: "返校季、租房、公寓洗衣日。",
+        eu: "7月测。折叠款、带轮款、窄缝款优先。",
+        risk: "体积、承重和布料质量影响评价。",
+        compliance: 88,
+        competition: 65,
+        creative: 70,
+        detail: "返校和租房需求明确，折叠、带轮、窄缝是差异点。视觉爆发力一般，但转化场景清晰。",
+        localAngle: "围绕 student laundry day、shared apartment、compact bathroom。",
+        productUrl: "https://shop.tiktok.com/us/k/dorm-laundry-basket",
+        videoUrl: "https://www.tiktok.com/search/video?q=dorm%20laundry%20basket%20tiktok%20shop",
+        image: "",
+        photoBg: "#eadcf2",
+        icon: "laundry"
+      },
+      {
+        name: "Sealegend 烘干机管道清洁套装",
+        category: "清洁",
+        priority: "C",
+        sales: "约 110K sold",
+        price: "美区 $9.99-$24.99",
+        euPrice: "欧区 €12.99-€29.99",
+        window: "全年",
+        trend: "清出毛絮、维护家电、前后对比，视觉冲击强。",
+        eu: "谨慎小测德国/法国。不要当第一主推。",
+        risk: "欧洲烘干机渗透低于美国，避免安全保证类宣传。",
+        compliance: 58,
+        competition: 55,
+        creative: 90,
+        detail: "美区视觉素材非常强，但欧区适配不如美国。不要强调防火或安全保证，先验证德国/法国烘干机用户场景。",
+        localAngle: "只讲 lint cleaning、dryer maintenance、hard-to-reach dust，不做安全承诺。",
+        productUrl: "https://shop.tiktok.com/us/pdp/dryer-vent-cleaner-kit-by-sealegend-with-universal-vacuum-attachment/1729481451479666818",
+        videoUrl: "https://www.tiktok.com/search/video?q=sealegend%20dryer%20vent%20cleaner",
+        image: "",
+        photoBg: "#e8ebe2",
+        icon: "dryer"
+      }
+    ];
+
+    const categoryFilters = ["全部", ...Array.from(new Set(products.map((product) => product.category)))];
+    const priorityFilters = ["全部", "A", "A-", "B", "C"];
+    let activeCategory = "全部";
+    let activePriority = "全部";
+    const productGrid = document.getElementById("productGrid");
+    const search = document.getElementById("search");
+
+    function iconSvg(type) {
+      const icons = {
+        cloth: `<svg viewBox="0 0 160 120"><path d="M38 25h84l18 22-18 48H38L20 47z" fill="#fff"/><path d="M45 37h70l10 13-11 31H47L35 50z" fill="#9fd6bd"/><path d="M47 48h64M52 63h56" stroke="#1e6a4b" stroke-width="6" stroke-linecap="round"/></svg>`,
+        bag: `<svg viewBox="0 0 160 120"><rect x="31" y="39" width="98" height="58" rx="10" fill="#ead1a8"/><path d="M55 41c4-15 46-15 50 0" fill="none" stroke="#1e6a4b" stroke-width="8"/><path d="M45 58h70M45 76h48" stroke="#8a6630" stroke-width="6" stroke-linecap="round"/></svg>`,
+        vacuum: `<svg viewBox="0 0 160 120"><rect x="30" y="31" width="100" height="64" rx="12" fill="#dce8f6"/><path d="M43 48h74M43 67h74M43 86h56" stroke="#225f8d" stroke-width="6" stroke-linecap="round"/><circle cx="124" cy="31" r="12" fill="#1e6a4b"/></svg>`,
+        blanket: `<svg viewBox="0 0 160 120"><path d="M37 25h77c14 0 21 9 14 22l-25 48H37z" fill="#b9e4e8"/><path d="M51 39h56M51 57h48M51 75h38" stroke="#225f8d" stroke-width="6" stroke-linecap="round"/></svg>`,
+        fridge: `<svg viewBox="0 0 160 120"><rect x="43" y="22" width="74" height="78" rx="10" fill="#eef6fb"/><path d="M43 52h74" stroke="#225f8d" stroke-width="6"/><circle cx="66" cy="78" r="13" fill="#e46550"/><circle cx="94" cy="78" r="13" fill="#78b85c"/></svg>`,
+        ice: `<svg viewBox="0 0 160 120"><rect x="28" y="35" width="104" height="56" rx="12" fill="#dfefff"/><rect x="43" y="49" width="23" height="23" rx="6" fill="#81c9f4"/><rect x="70" y="49" width="23" height="23" rx="6" fill="#9fd6bd"/><rect x="97" y="49" width="23" height="23" rx="6" fill="#81c9f4"/></svg>`,
+        rack: `<svg viewBox="0 0 160 120"><path d="M34 84h92M45 66h70M56 48h48M67 30h26" stroke="#1e6a4b" stroke-width="9" stroke-linecap="round"/><path d="M44 87l70-57" stroke="#8db9a6" stroke-width="6" stroke-linecap="round"/></svg>`,
+        rice: `<svg viewBox="0 0 160 120"><rect x="48" y="20" width="64" height="82" rx="10" fill="#f3efe2"/><path d="M59 41h42M59 59h42M59 77h30" stroke="#d66a22" stroke-width="6" stroke-linecap="round"/><circle cx="111" cy="83" r="12" fill="#1e6a4b"/></svg>`,
+        desk: `<svg viewBox="0 0 160 120"><rect x="32" y="28" width="96" height="66" rx="10" fill="#f0e6d6"/><path d="M48 45h25v32H48zM85 45h27v13H85zM85 66h27v11H85z" fill="#1e6a4b"/></svg>`,
+        outdoor: `<svg viewBox="0 0 160 120"><rect x="31" y="42" width="98" height="52" rx="8" fill="#dff3e7"/><path d="M44 54h72M44 70h72M44 86h72" stroke="#1e6a4b" stroke-width="5" stroke-linecap="round"/><path d="M52 28h56" stroke="#d66a22" stroke-width="8" stroke-linecap="round"/></svg>`,
+        laundry: `<svg viewBox="0 0 160 120"><path d="M45 34h70l-8 66H53z" fill="#e8d7ef"/><path d="M60 34c3-18 37-18 40 0" fill="none" stroke="#7f4f9e" stroke-width="7"/><path d="M60 55h40M57 73h46" stroke="#7f4f9e" stroke-width="6" stroke-linecap="round"/></svg>`,
+        dryer: `<svg viewBox="0 0 160 120"><path d="M30 77c30-24 55-24 84-7" fill="none" stroke="#1e6a4b" stroke-width="9" stroke-linecap="round"/><rect x="95" y="54" width="35" height="31" rx="8" fill="#dfe4dd"/><path d="M44 48h56" stroke="#d66a22" stroke-width="9" stroke-linecap="round"/></svg>`
+      };
+      return icons[type] || icons.cloth;
+    }
+
+    function makeFilters(containerId, values, current, onPick) {
+      const container = document.getElementById(containerId);
+      container.innerHTML = values.map((value) => `<button class="filter ${current() === value ? "active" : ""}" data-value="${value}">${value}</button>`).join("");
+      container.querySelectorAll("button").forEach((button) => {
+        button.addEventListener("click", () => {
+          onPick(button.dataset.value);
+          render();
+        });
+      });
+    }
+
+    function priorityClass(priority) {
+      if (priority === "A" || priority === "A-") return "a";
+      if (priority === "B") return "b";
+      return "c";
+    }
+
+    function productImage(product) {
+      if (!product.image) {
+        return `<div class="photo-card" style="--photo-bg: ${product.photoBg || "#e8efe7"}">${iconSvg(product.icon)}<span>${product.name}</span></div>`;
+      }
+      return `<img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';"><div class="photo-card is-fallback" style="--photo-bg: ${product.photoBg || "#e8efe7"}">${iconSvg(product.icon)}<span>${product.name}</span></div>`;
+    }
+
+    function renderNews() {
+      document.getElementById("updateLog").innerHTML = updateLog.map((item) => `
+        <article class="update-card">
+          <strong>${item.title}</strong>
+          <span>${item.detail}</span>
+        </article>
+      `).join("");
+
+      document.getElementById("newsList").innerHTML = news.map((item) => `
+        <article class="news-item">
+          <strong>${item.title}</strong>
+          <span>${item.detail}</span>
+          <a href="${item.url}" target="_blank" rel="noreferrer">查看来源</a>
+        </article>
+      `).join("");
+
+      const tickerItems = [...news, ...news];
+      document.getElementById("tickerTrack").innerHTML = tickerItems.map((item) => `
+        <article class="ticker-card">
+          <div class="ticker-date">${item.date}</div>
+          <div>
+            <strong>${item.title}</strong>
+            <span>${item.detail}</span>
+          </div>
+          <a href="${item.url}" target="_blank" rel="noreferrer">来源</a>
+        </article>
+      `).join("");
+    }
+
+    function scoreLabel(value) {
+      if (value >= 85) return `${value} 高`;
+      if (value >= 70) return `${value} 中高`;
+      if (value >= 60) return `${value} 中`;
+      return `${value} 谨慎`;
+    }
+
+    function openDetail(product) {
+      document.getElementById("modalTitle").textContent = product.name;
+      document.getElementById("modalSubtitle").textContent = `${product.category} · 优先级 ${product.priority} · ${product.sales}`;
+      document.getElementById("modalBody").innerHTML = `
+        <div class="detail-media">${productImage(product)}</div>
+        <div>
+          <div class="detail-grid">
+            <div class="detail-box"><strong>合规评分</strong><span>${scoreLabel(product.compliance)} / 100</span></div>
+            <div class="detail-box"><strong>竞争强度</strong><span>${scoreLabel(product.competition)} / 100</span></div>
+            <div class="detail-box"><strong>素材爆发分</strong><span>${scoreLabel(product.creative)} / 100</span></div>
+            <div class="detail-box"><strong>美区参考价</strong><span>${product.price}</span></div>
+            <div class="detail-box"><strong>欧区建议价</strong><span>${product.euPrice}</span></div>
+            <div class="detail-box"><strong>备货窗口</strong><span>${product.window}</span></div>
+          </div>
+          <div class="detail-section"><h4>选品判断</h4><p>${product.detail}</p></div>
+          <div class="detail-section"><h4>欧区本地化角度</h4><p>${product.localAngle}</p></div>
+          <div class="detail-section"><h4>风险点</h4><p>${product.risk}</p></div>
+          <div class="detail-section">
+            <h4>素材与商品入口</h4>
+            <div class="links">
+              <a href="${product.productUrl}" target="_blank" rel="noreferrer">商品/图片</a>
+              <a href="${product.videoUrl}" target="_blank" rel="noreferrer">爆款素材</a>
+            </div>
+          </div>
+        </div>
+      `;
+      document.getElementById("detailModal").classList.add("open");
+    }
+
+    function closeDetail() {
+      document.getElementById("detailModal").classList.remove("open");
+    }
+
+    function render() {
+      makeFilters("categoryFilters", categoryFilters, () => activeCategory, (value) => activeCategory = value);
+      makeFilters("priorityFilters", priorityFilters, () => activePriority, (value) => activePriority = value);
+
+      const query = search.value.trim().toLowerCase();
+      const filtered = products.filter((product) => {
+        const text = `${product.name} ${product.category} ${product.trend} ${product.eu} ${product.risk}`.toLowerCase();
+        return (activeCategory === "全部" || product.category === activeCategory)
+          && (activePriority === "全部" || product.priority === activePriority)
+          && (!query || text.includes(query));
+      });
+
+      document.getElementById("metricProducts").textContent = products.length;
+      document.getElementById("metricA").textContent = products.filter((product) => product.priority === "A").length;
+      document.getElementById("resultCount").textContent = `当前显示 ${filtered.length} 个产品`;
+      productGrid.innerHTML = filtered.map((product) => `
+        <article class="product-card" data-name="${product.name}">
+          <div class="product-media">
+            ${productImage(product)}
+            <span class="media-tag">${product.category}</span>
+          </div>
+          <div class="product-body">
+            <div class="product-title">
+              <h4>${product.name}</h4>
+              <span class="badge ${priorityClass(product.priority)}">${product.priority}</span>
+            </div>
+            <div class="product-stats">
+              <div><strong>销量线索</strong><span>${product.sales}</span></div>
+              <div><strong>备货窗口</strong><span>${product.window}</span></div>
+            </div>
+            <div class="price-row">
+              <div class="price-box"><strong>美区参考价</strong><span>${product.price}</span></div>
+              <div class="price-box"><strong>欧区建议价</strong><span>${product.euPrice}</span></div>
+            </div>
+            <div class="score-row">
+              <div class="score"><strong>合规</strong><span>${product.compliance}</span></div>
+              <div class="score"><strong>竞争</strong><span>${product.competition}</span></div>
+              <div class="score"><strong>素材</strong><span>${product.creative}</span></div>
+            </div>
+            <p class="copy">${product.trend}</p>
+            <p class="copy">${product.eu}</p>
+            <p class="copy">风险：${product.risk}</p>
+            <div class="links">
+              <a href="${product.productUrl}" target="_blank" rel="noreferrer">商品/图片</a>
+              <a href="${product.videoUrl}" target="_blank" rel="noreferrer">爆款素材</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+      productGrid.querySelectorAll(".product-card").forEach((card) => {
+        card.addEventListener("click", (event) => {
+          if (event.target.closest("a")) return;
+          const product = products.find((item) => item.name === card.dataset.name);
+          if (product) openDetail(product);
+        });
+      });
+    }
+
+    search.addEventListener("input", render);
+    document.getElementById("modalClose").addEventListener("click", closeDetail);
+    document.getElementById("detailModal").addEventListener("click", (event) => {
+      if (event.target.id === "detailModal") closeDetail();
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") closeDetail();
+    });
+    renderNews();
+    render();
+  </script>
+</body>
+</html>
