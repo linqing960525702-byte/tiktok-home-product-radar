@@ -624,6 +624,77 @@
       line-height: 1.45;
     }
 
+    .video-strip {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .video-card {
+      min-height: 190px;
+      display: grid;
+      grid-template-rows: auto 1fr auto;
+      gap: 10px;
+      padding: 13px;
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      background: #101815;
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .video-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .video-top span {
+      min-height: 26px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 9px;
+      border-radius: 999px;
+      background: #dff3e7;
+      color: #10231b;
+      font-size: 11px;
+      font-weight: 900;
+    }
+
+    .video-card strong {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 15px;
+      line-height: 1.32;
+    }
+
+    .video-card p {
+      margin: 0;
+      color: #d6e1db;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .video-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .video-links a {
+      min-height: 30px;
+      display: inline-flex;
+      align-items: center;
+      padding: 0 10px;
+      border-radius: 8px;
+      background: #fff;
+      color: #10231b;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
     .modal {
       position: fixed;
       inset: 0;
@@ -789,7 +860,7 @@
       main { padding: 18px; }
       .hero-main { grid-template-columns: 1fr; }
       .hero-main h2 { font-size: 17px; }
-      .toolbar, .products, .metrics, .filters, .updates, .modal-body, .detail-grid { grid-template-columns: 1fr; }
+      .toolbar, .products, .metrics, .filters, .updates, .video-strip, .modal-body, .detail-grid { grid-template-columns: 1fr; }
       .trend-table { display: block; overflow-x: auto; }
       .product-stats, .price-row { grid-template-columns: 1fr; }
     }
@@ -851,6 +922,12 @@
         <span>自动任务会把新增选品和资讯写到这里</span>
       </div>
       <section class="updates" id="updateLog"></section>
+
+      <div class="section-head">
+        <h3>今日美区爆款带货视频</h3>
+        <span>优先看素材结构：开头痛点、演示过程、前后对比、转化钩子</span>
+      </div>
+      <section class="video-strip" id="videoStrip"></section>
 
       <div class="section-head">
         <h3>产品库</h3>
@@ -980,6 +1057,57 @@
         title: "食品接触类厨房用品要先看文件",
         detail: "冰格、水果保鲜盒、米桶等产品建议先确认 LFGB/食品接触材料证明，再进入欧区备货。",
         url: "https://www.tiktok.com/search/video?q=kitchen%20organization%20tiktok%20shop"
+      }
+    ];
+
+    const hotVideos = [
+      {
+        tag: "清洁",
+        product: "Magic Cleaning Cloth",
+        title: "玻璃/厨房无痕擦拭演示",
+        angle: "开头直接展示水渍、油污或镜面痕迹，10 秒内完成前后对比，适合复刻成欧区清洁布素材。",
+        videoUrl: "https://www.tiktok.com/search/video?q=magic%20cleaning%20cloth%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/magic-cleaning-cloth"
+      },
+      {
+        tag: "收纳",
+        product: "Moving Bags",
+        title: "搬家袋/换季衣物收纳",
+        angle: "素材核心是凌乱衣柜到整齐搬家袋，适合学生公寓、出租屋、小户型换季场景。",
+        videoUrl: "https://www.tiktok.com/search/video?q=moving%20bags%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/moving-bags"
+      },
+      {
+        tag: "旅行",
+        product: "Vacuum Storage Bags",
+        title: "行李箱压缩前后对比",
+        angle: "用行李箱装不下作为痛点，演示压缩后体积减少，适合 6-8 月暑期旅行素材。",
+        videoUrl: "https://www.tiktok.com/search/video?q=travel%20vacuum%20storage%20bags%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/vacuumstoragebags"
+      },
+      {
+        tag: "夏季",
+        product: "Cooling Blanket",
+        title: "夏季卧室/沙发清凉毯",
+        angle: "主拍触感、夜间睡眠、沙发午休，不要夸大降温度数，适合欧洲夏季升温窗口。",
+        videoUrl: "https://www.tiktok.com/search/video?q=cooling%20blanket%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/cooling-blankets"
+      },
+      {
+        tag: "厨房",
+        product: "Fruit Storage Containers",
+        title: "冰箱水果保鲜盒整理",
+        angle: "用水果散乱、容易坏作为痛点，展示滤篮、分层、冰箱前后对比；欧区需食品接触证明。",
+        videoUrl: "https://www.tiktok.com/search/video?q=fruit%20storage%20container%20fridge%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/fruit-storage-containers"
+      },
+      {
+        tag: "返校",
+        product: "Desk Drawer Organizer",
+        title: "宿舍/桌面抽屉整理",
+        angle: "适合 7-9 月返校季，主拍文具、化妆品、小桌面收纳前后对比。",
+        videoUrl: "https://www.tiktok.com/search/video?q=desk%20drawer%20organizer%20tiktok%20shop",
+        shopUrl: "https://shop.tiktok.com/us/k/desk-organizer-stationery"
       }
     ];
 
@@ -1324,6 +1452,23 @@
             <span>${item.detail}</span>
           </div>
           <a href="${item.url}" target="_blank" rel="noreferrer">来源</a>
+        </article>
+      `).join("");
+
+      document.getElementById("videoStrip").innerHTML = hotVideos.map((item) => `
+        <article class="video-card">
+          <div class="video-top">
+            <span>${item.tag}</span>
+            <span>US TikTok Shop</span>
+          </div>
+          <div>
+            <strong>${item.title}</strong>
+            <p>${item.product} · ${item.angle}</p>
+          </div>
+          <div class="video-links">
+            <a href="${item.videoUrl}" target="_blank" rel="noreferrer">看带货视频</a>
+            <a href="${item.shopUrl}" target="_blank" rel="noreferrer">看商品页</a>
+          </div>
         </article>
       `).join("");
     }
