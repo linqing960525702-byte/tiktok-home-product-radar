@@ -882,7 +882,7 @@
         <div class="filters" id="priorityFilters"></div>
       </div>
       <div class="side-card">
-        评分逻辑：全球热度、视频素材爆发力、商业化转化、平台资讯影响、跨市场可复制性。不限制地区和类目。
+        评分逻辑：欧美/拉美热度、视频素材爆发力、商业化转化、平台资讯影响、跨市场可复制性。重点类目为家居百货和家装建材，排除美妆、服装、保健品、食品。
       </div>
     </aside>
 
@@ -890,9 +890,9 @@
       <section class="hero">
         <div class="hero-main">
           <div>
-            <span class="eyebrow">2026-05-26 更新 · 全球热点</span>
-            <h2>TK 全球热门产品与内容灵感库</h2>
-            <p>核心看当下热度、带货视频、平台资讯和可复制素材角度，不限制地区和类目。</p>
+            <span class="eyebrow">2026-05-26 更新 · 欧美/拉美热点</span>
+            <h2>TK 欧美拉美家居百货与家装建材灵感库</h2>
+            <p>核心看欧美和拉美市场的家居百货、家装建材爆款带货视频、平台资讯和可复制素材角度；排除美妆、服装、保健品、食品。</p>
           </div>
           <div class="ticker-screen">
             <div class="ticker-track" id="tickerTrack"></div>
@@ -906,7 +906,7 @@
       </section>
 
       <section class="toolbar">
-        <input class="search" id="search" type="search" placeholder="搜索：美妆、食品、穿搭、数码、家居、AI、直播、电商政策">
+        <input class="search" id="search" type="search" placeholder="搜索：家居、清洁、收纳、厨房工具、灯具、五金、装修、园艺、建材">
         <div class="updated">每日 24h 自动更新</div>
       </section>
 
@@ -914,7 +914,7 @@
         <div class="metric"><strong id="metricProducts">0</strong><span>产品候选</span></div>
         <div class="metric"><strong id="metricA">0</strong><span>A 级优先测款</span></div>
         <div class="metric"><strong>30-90天</strong><span>趋势预测窗口</span></div>
-        <div class="metric"><strong>Global</strong><span>不限区域和类目</span></div>
+        <div class="metric"><strong>US/EU/LATAM</strong><span>欧美拉美市场</span></div>
       </section>
 
       <div class="section-head">
@@ -924,8 +924,8 @@
       <section class="updates" id="updateLog"></section>
 
       <div class="section-head">
-        <h3>昨日 TK 单条爆款带货视频榜</h3>
-        <span>只收录可直达播放的单条视频；搜索页不算视频榜</span>
+        <h3>昨日欧美拉美家居/家装单条爆款视频榜</h3>
+        <span>重点家居百货、家装建材；排除美妆、服装、保健品、食品；只收录 TikTok 原视频链接</span>
       </div>
       <section class="video-strip" id="videoStrip"></section>
 
@@ -1005,19 +1005,19 @@
     const updateLog = [
       {
         title: "今日灵感主线",
-        detail: "美妆护肤、零食饮品、夏季穿搭、家居清洁、AI/数码配件仍是高频内容池。"
+        detail: "重点追踪家居清洁、收纳整理、厨房浴室工具、灯具照明、五金工具、园艺庭院和墙地面改造。"
       },
       {
         title: "内容结构提示",
-        detail: "强钩子、真实试用、价格冲击、达人反应和评论区争议，比单纯产品展示更容易起量。"
+        detail: "优先收录前后对比、痛点解决、真实安装/试用、评论区追问和价格冲击型素材。"
       },
       {
         title: "平台观察",
-        detail: "TikTok Shop、Creator Marketplace、直播带货、搜索电商和广告工具更新都需要纳入判断。"
+        detail: "TikTok Shop、达人分销、短视频搜索、广告创意中心和平台政策更新都会影响选品节奏。"
       },
       {
         title: "风险提醒",
-        detail: "食品、补剂、护肤功效、医疗健康、品牌同款和儿童用品仍需重点看合规与侵权风险。"
+        detail: "排除美妆、服装、保健品、食品；家装建材重点复核 CE、材质标签、承重、防火和安装安全声明。"
       }
     ];
 
@@ -1048,72 +1048,78 @@
       },
       {
         date: "合规",
-        title: "健康、功效和品牌词仍是高风险区",
-        detail: "护肤、补剂、食品、医疗健康、品牌同款和儿童产品，必须先验证声明和授权。",
+        title: "家居家装也要先过合规筛",
+        detail: "灯具、电器、五金、墙贴、地垫、清洁工具和厨房浴室用品，要先看认证、材质、标签和售后风险。",
         url: "https://seller.tiktokglobalshop.com/university"
       },
       {
         date: "灵感",
-        title: "跨类目混搭更容易出新角度",
-        detail: "例如美妆工具+旅行、食品+ASMR、家居+解压、数码+通勤，可以产生更强内容钩子。",
+        title: "家居场景混搭更容易出新角度",
+        detail: "例如清洁+解压、收纳+小户型、灯具+氛围感、五金工具+维修前后对比、墙地面改造+租房友好。",
         url: "https://www.tiktok.com/explore"
       }
     ];
 
     const hotVideos = [
       {
-        tag: "Top Ad",
-        product: "Medicube PDRN Pink Collagen Volume Multi Balm",
-        title: "全球热门广告素材 TOP1",
-        angle: "美妆护肤高客单产品，FastMoss 显示 ROAS 4.82、播放量约 390万。素材适合拆解：痛点功效、质地演示、达人信任背书。",
-        metric: "FastMoss 昨日/近期广告榜：ROAS 4.82 · 播放量 390万 · 销量 4133",
-        videoUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XdwnCOnIGg",
-        shopUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XdwnCOnIGg"
+        tag: "规则",
+        product: "欧美/拉美家居家装",
+        title: "昨日榜单筛选规则已更新",
+        angle: "只保留欧美和拉美市场；重点家居百货、家装建材；排除美妆、服装、保健品、食品。每条视频必须包含 TikTok 原视频链接、商品落地页和 FastMoss 数据源。",
+        metric: "字段：TikTok视频 · 商品落地页 · FastMoss来源 · 播放量/销量/ROAS",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/dashboard"
       },
       {
-        tag: "Top Video",
-        product: "TresemmeID",
-        title: "全球热门视频 NO.1",
-        angle: "FastMoss 显示播放量约 2300万、点赞 2.44万、互动率 0.11%。适合观察品牌号/达人号如何用高曝光视频带动商品兴趣。",
-        metric: "播放量 2300万 · 点赞 2.44万 · 粉丝 29.95万",
-        videoUrl: "https://www.fastmoss.com/zh/media-source/video/7641952107217571079",
-        shopUrl: "https://www.fastmoss.com/zh/media-source/video/7641952107217571079"
+        tag: "清洁",
+        product: "家居清洁工具",
+        title: "昨日清洁工具爆款视频待同步",
+        angle: "优先找油污、水垢、玻璃、地板、宠物毛发等前后对比强的视频；不收消毒/医疗级夸大承诺。",
+        metric: "等待 FastMoss 按新规则抓取",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
       },
       {
-        tag: "Food",
-        product: "Momom Mini Chocolate & Ube Krunch",
-        title: "食品零食广告素材 TOP2",
-        angle: "零食类适合 ASMR、口味反应、颜色和开袋声音。FastMoss 显示 ROAS 4.81、播放量约 150万。",
-        metric: "ROAS 4.81 · 播放量 150万 · 销量 2298",
-        videoUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2Xd1JgckIBn",
-        shopUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2Xd1JgckIBn"
+        tag: "收纳",
+        product: "收纳整理/小户型空间",
+        title: "昨日收纳整理爆款视频待同步",
+        angle: "优先看衣柜、厨房、浴室、搬家、返校、公寓小空间；强调尺寸、承重、折叠和安装便利。",
+        metric: "等待 FastMoss 按新规则抓取",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/e-commerce/saleslist?date_type=1"
       },
       {
-        tag: "Oral Care",
-        product: "KINGBABY Whitening Toothpaste",
-        title: "口腔护理广告素材 TOP3",
-        angle: "口腔护理强依赖前后对比和功效表达，但合规风险较高。FastMoss 显示 ROAS 5.45、播放量约 620万。",
-        metric: "ROAS 5.45 · 播放量 620万 · 销量 1879",
-        videoUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XaAovdCGDg",
-        shopUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XaAovdCGDg"
+        tag: "厨卫",
+        product: "厨房/浴室工具",
+        title: "昨日厨卫工具爆款视频待同步",
+        angle: "优先找台面整理、水槽过滤、浴室置物、防滑防霉、免打孔安装；食品接触类先核验证明。",
+        metric: "等待 FastMoss 按新规则抓取",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
       },
       {
-        tag: "Beauty",
-        product: "Glad2Glow Moisturizer",
-        title: "印尼美妆广告素材 TOP4",
-        angle: "平价护肤+肤色改善类表达容易起量，但要避免过度承诺。FastMoss 显示 ROAS 5.05、播放量约 200万。",
-        metric: "ROAS 5.05 · 播放量 200万 · 销量 651",
-        videoUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XdSzlfW8fL",
-        shopUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2XdSzlfW8fL"
+        tag: "灯具",
+        product: "灯具照明/氛围改造",
+        title: "昨日灯具照明爆款视频待同步",
+        angle: "优先找安装简单、租房友好、氛围前后对比强的视频；电器类必须核对 CE/插头/电压规格。",
+        metric: "等待 FastMoss 按新规则抓取",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/e-commerce/saleslist?date_type=1"
       },
       {
-        tag: "Body Care",
-        product: "Moicare Brightening Underarm",
-        title: "身体护理广告素材 TOP5",
-        angle: "身体护理类通常靠痛点共鸣和前后变化吸引点击，合规上要谨慎处理美白/淡化等功效措辞。",
-        metric: "ROAS 4.86 · 播放量 350万 · 销量 321",
-        videoUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2X24hQAjrZD",
-        shopUrl: "https://www.fastmoss.com/zh/creativecenter/newdetail/2X24hQAjrZD"
+        tag: "家装",
+        product: "五金工具/墙地面改造/园艺庭院",
+        title: "昨日家装建材爆款视频待同步",
+        angle: "优先找免打孔、修补、墙贴、地垫、庭院收纳、园艺工具和维修前后对比；排除高风险施工承诺。",
+        metric: "等待 FastMoss 按新规则抓取",
+        videoUrl: "",
+        landingUrl: "",
+        sourceUrl: "https://www.fastmoss.com/zh/creativecenter/search"
       }
     ];
 
@@ -1465,7 +1471,7 @@
         <article class="video-card">
           <div class="video-top">
             <span>${item.tag}</span>
-            <span>US TikTok Shop</span>
+            <span>US / EU / LATAM</span>
           </div>
           <div>
             <strong>${item.title}</strong>
@@ -1473,8 +1479,9 @@
             <p>${item.angle}</p>
           </div>
           <div class="video-links">
-            ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noreferrer">看视频详情</a>` : `<a href="${item.shopUrl}" target="_blank" rel="noreferrer">接入数据源</a>`}
-            <a href="${item.shopUrl}" target="_blank" rel="noreferrer">数据来源</a>
+            ${item.videoUrl ? `<a href="${item.videoUrl}" target="_blank" rel="noreferrer">播放 TikTok 视频</a>` : `<a href="${item.sourceUrl}" target="_blank" rel="noreferrer">接入数据源</a>`}
+            ${item.landingUrl ? `<a href="${item.landingUrl}" target="_blank" rel="noreferrer">商品落地页</a>` : ""}
+            <a href="${item.sourceUrl}" target="_blank" rel="noreferrer">FastMoss 来源</a>
           </div>
         </article>
       `).join("");
